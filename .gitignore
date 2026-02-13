@@ -1,0 +1,6 @@
+build
+build_tests
+.cache/
+.DS_Store
+googletest-src
+compile_commands.json
