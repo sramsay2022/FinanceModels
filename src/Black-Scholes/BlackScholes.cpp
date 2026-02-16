@@ -44,10 +44,13 @@ double BlackScholes::operator()(double vol)
 
 std::array<double, 2> BlackScholes::computeNormArgs(double vol)
 {
-    double d1 = ((std::log(m_spot / m_strike) + (m_rate - m_div + 0.5 * vol * vol)) * m_timeToExp) /
-                (vol * sqrt(m_timeToExp));
+    const double sqrT = std::sqrt(m_timeToExp);
 
-    double d2 = d1 - (vol * sqrt(m_timeToExp));
+    const double d1 =
+        (std::log(m_spot / m_strike) + ((m_rate - m_div + 0.5 * vol * vol) * m_timeToExp)) /
+        (vol * sqrT);
+
+    const double d2 = d1 - (vol * sqrT);
 
     return {d1, d2};
 }

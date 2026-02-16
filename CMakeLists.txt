@@ -30,8 +30,8 @@ endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-# add_subdirectory(src)
+add_subdirectory(src/Black-Scholes)
 
 target_link_libraries(${PROJECT_NAME}
-    
+    blackScholes
 )
