@@ -15,7 +15,7 @@ BlackScholes::BlackScholes(double strike, double spot, double timeToExp, PayoffT
 {
 }
 
-double BlackScholes::operator()(double vol)
+double BlackScholes::operator()(double vol) const
 {
     using std::exp;
 
@@ -42,7 +42,7 @@ double BlackScholes::operator()(double vol)
     }
 }
 
-std::array<double, 2> BlackScholes::computeNormArgs(double vol)
+std::array<double, 2> BlackScholes::computeNormArgs(double vol) const
 {
     const double sqrT = std::sqrt(m_timeToExp);
 
@@ -53,4 +53,36 @@ std::array<double, 2> BlackScholes::computeNormArgs(double vol)
     const double d2 = d1 - (vol * sqrT);
 
     return {d1, d2};
+}
+
+double implied_volatility(const BlackScholes& bsc, double opt_mkt_price, double x0, double x1,
+                          double tol, unsigned max_iter)
+{
+    auto diff = [&bsc, opt_mkt_price](double x) { return bsc(x) - opt_mkt_price; };
+
+    // x -> vol, y -> BSc opt price - mkt opt price
+    double y0 = diff(x0);
+    double y1 = diff(x1);
+
+    double   impl_vol   = 0.0;
+    unsigned count_iter = 0;
+    for (count_iter = 0; count_iter <= max_iter; ++count_iter)
+    {
+        if (std::abs(x1 - x0) > tol)
+        {
+            impl_vol = x1 - (x1 - x0) * y1 / (y1 - y0);
+
+            // Update x1 & x0:
+            x0 = x1;
+            x1 = impl_vol;
+            y0 = y1;
+            y1 = diff(x1);
+        }
+        else
+        {
+            return x1;
+        }
+    }
+
+    return std::nan("");  // std::nan(" ") in <cmath>
 }
