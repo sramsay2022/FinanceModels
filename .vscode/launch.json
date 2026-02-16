@@ -6,7 +6,7 @@
             "type": "lldb",
             "request": "launch",
             "preLaunchTask": "CMake Build",
-            "program": "${workspaceFolder}/build/bin/orderBook",
+            "program": "${workspaceFolder}/build/bin/REPLACE_ME",
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -15,7 +15,7 @@
             "type": "lldb",
             "request": "launch",
             "preLaunchTask": "CMake Build (tests)",
-            "program": "${workspaceFolder}/build_tests/bin/orderbook_tests",
+            "program": "${workspaceFolder}/build_tests/bin/*",
             "args": [],
             "cwd": "${workspaceFolder}"
         }
