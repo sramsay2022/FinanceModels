@@ -6,14 +6,15 @@
 
 void Volatility_Known()
 {
-    double strike     = 75.0;
-    auto   payoffType = PayoffType::Call;
+    double strike     = 95.0;
     double spot       = 100.0;
+    double timeToExp  = 0.25;
+    auto   payoffType = PayoffType::Call;
     double rate       = 0.05;
+    double dividend   = 0.07;
     double vol        = 0.25;
-    double timeToExp  = 0.0;
 
-    BlackScholes bscITM{strike, spot, timeToExp, payoffType, rate};
+    BlackScholes bscITM{strike, spot, timeToExp, payoffType, rate, dividend};
 
     double value = bscITM(vol);
 
@@ -40,7 +41,9 @@ void Volatility_Unknown()
 
     BlackScholes bscITM{strike, spot, timeToExp, payoffType, rate, dividend};
 
-    double mktOptPrice   = 6.2;
+    double mktOptPrice = 6.2;
+
+    // Typical guesses are 0.1-0.3 because vol is usually between 10%-50%
     double initVolGuess1 = 0.1;
     double initVolGuess2 = 0.15;
 
